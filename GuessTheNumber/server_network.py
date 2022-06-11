@@ -1,8 +1,8 @@
 import socket
 import threading
-import packer
-from server_user import ServerUser
-from server_gtn import GuessTheNumber
+from GuessTheNumber.packer import Packer
+from GuessTheNumber.server_user import ServerUser
+from GuessTheNumber.server_gtn import GuessTheNumber
 
 
 class Server(threading.Thread):
@@ -56,7 +56,7 @@ class Server(threading.Thread):
         for u in self.userlist:  # setzt Schätzung zurück
             u.guess = None
             u.diff = None
-        p = packer.Packer('ENDGAME', '', '', f'{gewinner} gewinnt mit seinem Tipp: {diff}\nGesucht war: {gesucht}')  # teilt den Clients das Spielende mit
+        p = Packer('ENDGAME', '', '', f'{gewinner} gewinnt mit seinem Tipp: {diff}\nGesucht war: {gesucht}')  # teilt den Clients das Spielende mit
         p = p.pack()
         self.broadcast(p)
 

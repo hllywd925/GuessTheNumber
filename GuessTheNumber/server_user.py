@@ -1,6 +1,6 @@
 import json
-import packer
-from db_controller import DBController
+from GuessTheNumber.packer import Packer
+from GuessTheNumber.db_controller import DBController
 
 
 class ServerUser:
@@ -32,7 +32,7 @@ class ServerUser:
         data = json.loads(package)
         if data['typ'] == 'MSG':
             if not self.server.gameruns:
-                p = packer.Packer('BCMSG', data['user_id'], data['name'], data['data'])
+                p = Packer('BCMSG', data['user_id'], data['name'], data['data'])
                 p = p.pack()
                 self.server.broadcast(p)
             if self.server.gameruns:
@@ -41,21 +41,21 @@ class ServerUser:
                     if not self.guess:
                         self.guess = guess
                         self.server.game.guesses += 1
-                        p = packer.Packer('SERVERMSG', 'SERVER', 'SERVER', str(guess))
+                        p = Packer('SERVERMSG', 'SERVER', 'SERVER', str(guess))
                         p = p.pack()
                         self.server.privatcast(self.clientsocket, p)
                     else:
-                        p = packer.Packer('SERVERMSG', 'SERVER', 'SERVER', 'Bereits geraten')
+                        p = Packer('SERVERMSG', 'SERVER', 'SERVER', 'Bereits geraten')
                         p = p.pack()
                         self.server.privatcast(self.clientsocket, p)
                 except:
-                    p = packer.Packer('SERVERMSG', 'SERVER', 'SERVER', 'Bitte eine Zahl eingeben.')
+                    p = Packer('SERVERMSG', 'SERVER', 'SERVER', 'Bitte eine Zahl eingeben.')
                     p = p.pack()
                     self.server.privatcast(self.clientsocket, p)
 
         if data['typ'] == 'LGIN':
             user_id, data_new, access = self.db.login_check(data['name'], data['data'])
-            p = packer.Packer('SERVERLOGIN', user_id, data['name'], data_new)
+            p = Packer('SERVERLOGIN', user_id, data['name'], data_new)
             p = p.pack()
             self.server.privatcast(self.clientsocket, p)
             if access:
@@ -67,7 +67,7 @@ class ServerUser:
 
         if data['typ'] == 'RGSTR':
             user_id_new, name_new, passwort_new, data_new, access = self.db.creating_new_user(data['data'])
-            p = packer.Packer('SERVERREGISTER', user_id_new, name_new, data_new)
+            p = Packer('SERVERREGISTER', user_id_new, name_new, data_new)
             p = p.pack()
             self.server.privatcast(self.clientsocket, p)
             if access:
@@ -77,7 +77,7 @@ class ServerUser:
                 self.shutdown()
 
         if data['typ'] == 'GMSTRT':
-            p = packer.Packer('GAMERUNS', 'Server', 'Server',
+            p = Packer('GAMERUNS', 'Server', 'Server',
                               'Guess the Number\nBitte gebe eine Zahl zwischen 1 und 100 ein.')
             p = p.pack()
             self.server.broadcast(p)

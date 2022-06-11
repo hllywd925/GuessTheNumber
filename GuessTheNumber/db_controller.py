@@ -4,7 +4,7 @@ import random
 
 class DBController:
     def __init__(self):
-        self.db = TinyDB('user_db.json', sort_keys=True, indent=4, separators=(',', ': '))
+        self.db = TinyDB('GuessTheNumber/user_db.json', sort_keys=True, indent=4, separators=(',', ': '))
         self.User = Query()
 
     def login_check(self, name, passwort):

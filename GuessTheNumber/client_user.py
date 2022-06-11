@@ -1,6 +1,6 @@
-from client_ui import ClientUI
-from client_network import Network
-import packer
+from GuessTheNumber.client_ui import ClientUI
+from GuessTheNumber.client_network import Network
+from GuessTheNumber.packer import Packer
 import json
 
 
@@ -26,7 +26,7 @@ class ClientUser:
             self.ui.print_to_window('Spiel läuft bereits')
 
     def packer(self, typ, data):  # hier werden die raus gehenden JSON gepackt und an den Server gesendet
-        p = packer.Packer(typ, self.user_id, self.name, data)
+        p = Packer(typ, self.user_id, self.name, data)
         p = p.pack()
         self.network.outgoing_data(p)
 
