@@ -1,0 +1,8 @@
+user = {
+    name = "Max"
+    user_id = "a037985"
+    attributes = {
+        speed = 3
+        reflex = 7
+    }
+}
